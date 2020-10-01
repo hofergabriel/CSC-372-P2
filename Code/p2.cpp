@@ -56,6 +56,16 @@ vector<set<int>> makeBoard(map<int,int> &m, int bw){
   return board;
 }
 
+void printBoard(vector<set<int>> &b){
+  for(int i=0;i<b.size();i++){
+    cout<<"(";
+    for(set<int>::iterator it=b[i].begin(); it!=b[i].end() && cout<<", "; ++it)
+      cout<<*it<<endl;
+    cout<<" --> ";
+    cout<<endl;
+  }
+}
+
 /**********************************************************
 Main function
 ***********************************************************/
@@ -73,12 +83,7 @@ int main(){
   cout<<"read board"<<endl;
 
   bb=makeBoard(m,bw);
-
-  for(int i=0;i<bb.size();i++){
-    for(auto e:bb[i])
-      cout<<e<<' ';
-    cout<<endl;
-  }
+  printBoard(bb);
   return 0;
 }
 
