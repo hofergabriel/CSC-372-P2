@@ -22,9 +22,7 @@ set<int> makeRow(map<int,int> &m, int bw){
   int dp[bw+1]; 
   for(int i=0;i<=bw;i++) dp[i]=-1; // initialize
   dp[0]=-2;
-
   for(map<int,int>::iterator it=m.begin(); it!=m.end(); ++it){
-    int key=it->first, value=it->second;
     for(int j=bw; j>=it->second; --j){
       if(dp[j]==-1 && dp[j-(it->second)]!=-1)
         dp[j]=it->first;
