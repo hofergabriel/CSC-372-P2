@@ -56,12 +56,17 @@ vector<set<int>> makeBoard(map<int,int> &m, int bw){
   return board;
 }
 
+/**********************************************************
+Format Output
+***********************************************************/
 void printBoard(vector<set<int>> &b){
   for(int i=0;i<b.size();i++){
     cout<<"(";
-    for(set<int>::iterator it=b[i].begin(); it!=b[i].end() && cout<<", "; ++it)
-      cout<<*it<<endl;
-    cout<<" --> ";
+    for(set<int>::iterator it=b[i].begin();;){
+      cout<<*it;
+      if((++it)!=b[i].end()) cout<<", "; else break;
+    }
+    cout<<") --> ";
     cout<<endl;
   }
 }
