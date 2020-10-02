@@ -4,14 +4,12 @@
 #include <set>
 using namespace std;
 
-
 /**********************************************************
 Read the Announcements 
 ***********************************************************/
 map<int,int> readm(int n){
   map<int,int> m;
-  for(int e, i=0;i<n;i++) 
-    cin>>m[i];
+  for(int e, i=0;i<n;i++) cin>>m[i];
   return m;
 }
 
@@ -32,11 +30,10 @@ set<int> makeRow(map<int,int> &m, int bw){
   }
   // construct the row
   set<int> row;
-  int idx=-1;
+  int idx=-1, cpy;
   for(int i=bw; i>=0 && idx==-1; --i)
     if(dp[i]!=-1) idx=i;
   if(idx==-1) return {}; 
-  int cpy;
   while(idx!=0){
     row.insert(dp[idx]);
     cpy=dp[idx];
@@ -49,17 +46,16 @@ set<int> makeRow(map<int,int> &m, int bw){
 /**********************************************************
 make Board
 ***********************************************************/
-vector<set<int>> makeBoard(map<int,int> &m, int bw){
+vector<set<int>> makeBoard(map<int,int> m, int bw){
   vector<set<int>> board;  
-  while(!m.empty())
-    board.push_back(makeRow(m,bw));
+  while(!m.empty()) board.push_back(makeRow(m,bw));
   return board;
 }
 
 /**********************************************************
 Format Output
 ***********************************************************/
-void printBoard(vector<set<int>> &b){
+void printBoard(vector<set<int>> &b, map<int,int> m){
   for(int i=0;i<b.size();i++){
     cout<<"(";
     for(set<int>::iterator it=b[i].begin();;){
@@ -67,7 +63,10 @@ void printBoard(vector<set<int>> &b){
       if((++it)!=b[i].end()) cout<<", "; else break;
     }
     cout<<") --> ";
-    cout<<endl;
+    int sum=0;
+    for(auto e:b[i])
+      sum+=m[e];
+    cout<<sum<<endl;
   }
 }
 
@@ -88,7 +87,7 @@ int main(){
   cout<<"read board"<<endl;
 
   bb=makeBoard(m,bw);
-  printBoard(bb);
+  printBoard(bb,m);
   return 0;
 }
 
