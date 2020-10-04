@@ -13,6 +13,7 @@ using namespace std;
 void readv(int n);
 vector<int> prefix(vector<int> &v);
 void brute(vector<int> &pv, int loc, int row, int bw);
+map<int,map<int,int>> dp;
 
 /********************************************************************
 *********************************************************************/
@@ -33,7 +34,6 @@ Solution shoudl be in dp[row=0][loc=0] ...
 @param mnLoc - location/index where mnC is found
 *********************************************************************/
 void brute(vector<int> &pv, int loc, int row, int bw){
-
   if(row>mxR) return inf; 
   if(loc==v.size()) return 0;
   for(int loc2=loc, mnC=1e9, mnLoc, t; pv[loc2]-(loc==0 ? 0:pv[loc-1])<=bw; loc2++){
@@ -42,9 +42,7 @@ void brute(vector<int> &pv, int loc, int row, int bw){
       brute(pv,loc2+1,row+1,bw); // need to account for loc-1<0
     if(t<mnC){ mnC=t; mnLoc=loc2; }
   }
-  // store result (row, loc2) in data structure or something 
-  // [insert memoization here]
-  return mnC;
+  return dp[row][loc]=mnC;
 }
 
 /********************************************************************
@@ -62,5 +60,8 @@ void readv(int n){
   for(int i=0;i<n;i++) cin>>v[i];
   return v;
 }
+
+
+
 
 
