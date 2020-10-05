@@ -33,8 +33,6 @@ int main(){
   }
   cout<<endl;
 
-
-
   mxR = get_mxR(v, bw);
   cout<<"mxR: "<<mxR<<endl;
 
@@ -56,11 +54,9 @@ int brute(vector<int> &pv, int loc, int row, int bw, int mxR){
   // if(dp.count(row) && dp[row].count(loc)) return dp[row][loc];
   
   for(; loc2<pv.size() && pv[loc2]-(loc==0 ? 0:pv[loc-1])<=bw; loc2++){
-    cout<<"\t\t\t\trow: "<<row<<" loc: "<<loc<<" bw: "<<bw<<endl;
-       
-    t = 
-      loc2==pv.size()-1 ? 0 : pow(bw-(pv[loc2]-(loc==0 ? 0:pv[loc-1])),3) + 
-      brute(pv,loc2+1,row+1,bw,mxR); 
+    //cout<<"\t\t\t\trow: "<<row<<" loc: "<<loc<<" bw: "<<bw<<endl;
+    if(loc2==pv.size()-1) return 0;
+    t = pow(bw-(pv[loc2]-(loc==0 ? 0:pv[loc-1])),3) + brute(pv,loc2+1,row+1,bw,mxR); 
     if(t<mnC){ mnC=t; mnLoc=loc2; }
   }
   ans[row]={loc,loc2}; 
