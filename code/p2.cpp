@@ -50,19 +50,19 @@ Solution shoudl be in dp[row=0][loc=0] ...
 @param mnLoc - location/index where mnC is found
 *********************************************************************/
 int brute(vector<int> &pv, int loc, int row, int bw, int mxR){
-  if(row>mxR) return ((int)1<30); 
-  if(loc==pv.size()-1) return 0;
+  if(loc>=pv.size()-1) return 0;
+  if(row>mxR ) return ((int)1<28); 
   int mnC=1<<30, mnLoc, loc2=loc, t;
   // if(dp.count(row) && dp[row].count(loc)) return dp[row][loc];
   
-  for(; loc2<(pv.size()-1) && pv[loc2]-(loc==0 ? 0:pv[loc-1])<=bw; loc2++){
+  for(; loc2<pv.size() && pv[loc2]-(loc==0 ? 0:pv[loc-1])<=bw; loc2++){
 
     cout<<"\t\t\t\trow: "<<row<<" loc: "<<loc<<" bw: "<<bw<<endl;
     cout<<"cost: "<<pow(bw-(pv[loc2]-(loc==0 ? 0:pv[loc-1])),3)<<endl;
     
     t = 
       pow(bw-(pv[loc2]-(loc==0 ? 0:pv[loc-1])),3) + 
-      brute(pv,loc2+1,row+1,bw,mxR); // need to account for loc-1<0
+      brute(pv,loc2+1,row+1,bw,mxR); 
     cout<<"\t\tt: "<<t<<endl;
     if(t<mnC){ mnC=t; mnLoc=loc2; }
 
