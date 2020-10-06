@@ -38,11 +38,11 @@ echo "TEST 9"
 
 echo "------------------------------------------------------------"
 echo "TEST 10"
-# ./a.out < "tests/test10.txt"
+./a.out < "tests/test10.txt"
 
 echo "------------------------------------------------------------"
 echo "TEST 11"
-# ./a.out < "tests/test11.txt"
+./a.out < "tests/test11.txt"
 
 
 

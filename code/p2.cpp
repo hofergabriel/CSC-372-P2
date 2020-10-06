@@ -1,7 +1,7 @@
 /********************************************************************
 Author: Gabriel Hofer
 Instructor: Dr. Rebenitsch
-Date: October 8, 2020
+Date: 7am, October 8, 2020
 Course: CSC-372
 *********************************************************************/
 #include <iostream>
@@ -20,6 +20,7 @@ vector<int> ans;
 map<int,map<int,int>> dp;
 
 /********************************************************************
+Main
 *********************************************************************/
 int main(){
   int bw, n, mxR;
@@ -36,17 +37,26 @@ int main(){
 
 /********************************************************************
 Solution should be in dp[row=0][loc=0] ... 
-@param mnC - min cost
-@param mnLoc - location/index where mnC is found
+@param pv - prefix sum vector of v
+@param loc - index of announcement in v that starts the row
+@param row - current row number 
+@param bw - board width 
+@param mxR - maximum row number 
 *********************************************************************/
 int brute(vector<int> &pv, const int loc, const int row, const int bw, const int mxR){
   pair<int,int> mn_C_Loc={1<<28, -1};
   int loc2=loc, t=-1;
-  if(loc>=pv.size()-1){ ans[row]=loc; return 0; }
   if(row>mxR ) return ((int)1<28); 
+  if(loc>=pv.size()-1){ 
+    ans[row]=loc; 
+    return 0; 
+  }
   if(dp.count(row) && dp[row].count(loc)) return dp[row][loc];
   for(; loc2<pv.size() && pv[loc2]-(loc==0 ? 0:pv[loc-1])<=bw; loc2++){
-    if(loc2==pv.size()-1) { mn_C_Loc={0,loc2}; break; }
+    if(loc2==pv.size()-1) { 
+      mn_C_Loc={0,loc2}; 
+      break; 
+    }
     t = pow(bw-(pv[loc2]-(loc==0 ? 0:pv[loc-1])),3) + brute(pv,loc2+1,row+1,bw,mxR); 
     if(t<mn_C_Loc.first) mn_C_Loc={t,loc2};
   }
@@ -55,6 +65,8 @@ int brute(vector<int> &pv, const int loc, const int row, const int bw, const int
 }
 
 /********************************************************************
+@param v - contains announcements
+@param bw - board width 
 *********************************************************************/
 int get_mxR(vector<int> &v, const int bw){
   int r=0;
@@ -66,6 +78,7 @@ int get_mxR(vector<int> &v, const int bw){
 }
 
 /********************************************************************
+@param v - contains announcements
 *********************************************************************/
 vector<int> prefix(vector<int> &v){
   vector<int> pv=v;
@@ -74,6 +87,7 @@ vector<int> prefix(vector<int> &v){
 }
 
 /********************************************************************
+@param n - number of announcements to read from stdin
 *********************************************************************/
 vector<int> read_v(const int n){
   vector<int> v(n);
@@ -82,6 +96,8 @@ vector<int> read_v(const int n){
 }
 
 /********************************************************************
+@param mxR - max row number
+@param pv - prefix of v
 *********************************************************************/
 void display(const int mxR, vector<int> &pv){
   cout<<"Board cost: "<<dp[0][0]<<endl;
