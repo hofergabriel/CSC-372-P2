@@ -41,33 +41,14 @@ Solution should be in dp[row=0][loc=0] ...
 *********************************************************************/
 int brute(vector<int> &pv, const int loc, const int row, const int bw, const int mxR){
   int mnC=1<<28, mnLoc=-1, loc2=loc, t=-1;
-  //cout<<"row: "<<row<<" loc: "<<loc<<endl;
-  if(loc>=pv.size()-1){ 
-    ans[row]=loc; 
-    return 0; 
-  }
-  if(row>mxR ) 
-    return ((int)1<28); 
-  if(dp.count(row) && dp[row].count(loc)) {
-    return dp[row][loc];
-  }
+  if(loc>=pv.size()-1){ ans[row]=loc; return 0; }
+  if(row>mxR ) return ((int)1<28); 
+  if(dp.count(row) && dp[row].count(loc)) return dp[row][loc];
   for(; loc2<pv.size() && pv[loc2]-(loc==0 ? 0:pv[loc-1])<=bw; loc2++){
-    if(loc2==pv.size()-1) { 
-      //cout<<"ONE "<<"row: "<<row<<" loc: "<<loc<<" mnLoc: "<<mnLoc<<" mnC: "<<mnC<<endl;
-      mnC=0; 
-      mnLoc=loc2; 
-      break; 
-    }
+    if(loc2==pv.size()-1) { mnC=0; mnLoc=loc2; break; }
     t = pow(bw-(pv[loc2]-(loc==0 ? 0:pv[loc-1])),3) + brute(pv,loc2+1,row+1,bw,mxR); 
-    if(t<mnC){ 
-      //cout<<"TWO "<<"row: "<<row<<" loc: "<<loc<<" mnLoc: "<<mnLoc<<" mnC: "<<mnC<<endl;
-      //cout<<"t: "<<t<<endl;
-      mnC=t; 
-      mnLoc=loc2; 
-    }
+    if(t<mnC){ mnC=t; mnLoc=loc2; }
   }
-  //cout<<"row: "<<row<<" loc: "<<loc<<" mnLoc: "<<mnLoc<<" mnC: "<<mnC<<endl;
-  
   ans[row]=mnLoc;
   return dp[row][loc]=mnC;
 }
@@ -105,7 +86,8 @@ void display(const int mxR, vector<int> &pv){
   cout<<"Board cost: "<<dp[0][0]<<endl;
   //ans[mxR]=pv.size()-1;
   for(int i=0, j=0;i<=mxR;i++){
-    cout<<"("<<j+1<<", "<<ans[i]+1<<") --> "<<endl;
+    cout<<"("<<j+1<<", "<<ans[i]+1<<") --> "
+      <<pv[ans[i]]-(j==0 ? 0:pv[j-1])<<endl;
     j=ans[i]+1;
   }
   cout<<endl;
