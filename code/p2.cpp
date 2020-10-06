@@ -15,8 +15,8 @@ vector<int> prefix(vector<int> &v);
 int brute(vector<int> &pv, int loc, int row, int bw, int mxR);
 map<int,map<int,int>> dp;
 int get_mxR(vector<int> &v, int bw);
-map<int,pair<int,int>> ans;
-void display();
+vector<pair<int,int>> ans;
+void display(int mxR);
 
 /********************************************************************
 *********************************************************************/
@@ -34,10 +34,15 @@ int main(){
   cout<<endl;
 
   mxR = get_mxR(v, bw);
-  cout<<"mxR: "<<mxR<<endl;
+  ans.resize(mxR+5);
 
   int mnC = brute(pv, 0, 0, bw, mxR); // solve naively??
   cout<<"mnC: "<<mnC<<endl;
+  
+  cout<<"dp[0][0]: "<<dp[0][0]<<endl;
+  display(mxR);
+  cout<<"WHAT WHAT"<<endl;
+
   // answer should be in dp[0][0]
   return 0;
 }
@@ -48,18 +53,17 @@ Solution shoudl be in dp[row=0][loc=0] ...
 @param mnLoc - location/index where mnC is found
 *********************************************************************/
 int brute(vector<int> &pv, int loc, int row, int bw, int mxR){
-  if(loc>=pv.size()-1) return 0;
+  cout<<"\t\t\trow: "<<row<<" loc: "<<loc<<endl;
+  if(loc>=pv.size()-1){ ans[row]={loc, pv.size()-1}; return 0; }
   if(row>mxR ) return ((int)1<28); 
-  int mnC=1<<30, mnLoc, loc2=loc, t;
-  // if(dp.count(row) && dp[row].count(loc)) return dp[row][loc];
-  
+  int mnC=1<<28, mnLoc, loc2=loc, t;
+  if(dp.count(row) && dp[row].count(loc)) return dp[row][loc];
   for(; loc2<pv.size() && pv[loc2]-(loc==0 ? 0:pv[loc-1])<=bw; loc2++){
-    //cout<<"\t\t\t\trow: "<<row<<" loc: "<<loc<<" bw: "<<bw<<endl;
-    if(loc2==pv.size()-1) return 0;
+    if(loc2==pv.size()-1) { mnC=0; mnLoc=loc2; break; }
     t = pow(bw-(pv[loc2]-(loc==0 ? 0:pv[loc-1])),3) + brute(pv,loc2+1,row+1,bw,mxR); 
     if(t<mnC){ mnC=t; mnLoc=loc2; }
   }
-  ans[row]={loc,loc2}; 
+  ans[row]={loc,mnLoc}; 
   return dp[row][loc]=mnC;
 }
 
@@ -92,10 +96,13 @@ vector<int> read_v(int n){
 
 /********************************************************************
 *********************************************************************/
-void display(){
+void display(int mxR){
   cout<<dp[0][0]<<endl;
-  for(auto e:ans)
-    cout<<"("<<(e.second).first<<", "<<(e.second).second<<") --> "<<endl;
+  cout<<"HELLO HELLO"<<endl;
+  for(int i=0;i<=mxR;i++){
+    cout<<"("<<(ans[i].first)+1<<", "<<(ans[i].second)+1<<") --> "<<endl;
+  }
+  cout<<"mxR: "<<mxR<<endl;
 }
 
 
