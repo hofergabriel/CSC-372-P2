@@ -40,18 +40,17 @@ Solution should be in dp[row=0][loc=0] ...
 @param mnLoc - location/index where mnC is found
 *********************************************************************/
 int brute(vector<int> &pv, const int loc, const int row, const int bw, const int mxR){
-  pair<int,int> mn_C_Loc={1<<28, -1};
-  int loc2=loc, t=-1;
+  int mnC=1<<28, mnLoc=-1, loc2=loc, t=-1;
   if(loc>=pv.size()-1){ ans[row]=loc; return 0; }
   if(row>mxR ) return ((int)1<28); 
   if(dp.count(row) && dp[row].count(loc)) return dp[row][loc];
   for(; loc2<pv.size() && pv[loc2]-(loc==0 ? 0:pv[loc-1])<=bw; loc2++){
-    if(loc2==pv.size()-1) { mn_C_Loc={0,loc2}; break; }
+    if(loc2==pv.size()-1) { mnC=0; mnLoc=loc2; break; }
     t = pow(bw-(pv[loc2]-(loc==0 ? 0:pv[loc-1])),3) + brute(pv,loc2+1,row+1,bw,mxR); 
-    if(t<mn_C_Loc.first) mn_C_Loc={t,loc2};
+    if(t<mnC){ mnC=t; mnLoc=loc2; }
   }
-  ans[row]=mn_C_Loc.second;
-  return dp[row][loc]=mn_C_Loc.first;
+  ans[row]=mnLoc;
+  return dp[row][loc]=mnC;
 }
 
 /********************************************************************
@@ -87,20 +86,17 @@ void display(const int mxR, vector<int> &pv){
   cout<<"Board cost: "<<dp[0][0]<<endl;
   //ans[mxR]=pv.size()-1;
   for(int i=0, j=0;i<=mxR;i++){
-    cout<<"("<<j+1<<", "<<ans[i]+1<<") --> "<<pv[ans[i]]-(j==0 ? 0:pv[j-1])<<endl;
+    cout<<"("<<j+1<<", "<<ans[i]+1<<") --> "
+      <<pv[ans[i]]-(j==0 ? 0:pv[j-1])<<endl;
     j=ans[i]+1;
   }
   cout<<endl;
+
+  /*for(int i=0;i<=mxR;i++){
+    cout<<"("<<ans[i]+1<<", "<<(ans[i+1]+1)+1<<") --> "<<endl;
+  }
+  cout<<"mxR: "<<mxR<<endl;*/
 }
-
-
-
-
-
-
-
-
-
 
 
 
